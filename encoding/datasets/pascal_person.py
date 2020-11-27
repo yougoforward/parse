@@ -1,35 +1,36 @@
 import os
 import numpy as np
+import random
 
 import torch
 
 from PIL import Image
 from tqdm import tqdm
-
 from .base import BaseDataset
+import torchvision.transforms as transforms
 
-class VOCSegmentation(BaseDataset):
+class PersonSegmentation(BaseDataset):
     CLASSES = [
         'background', 'head', 'torso', 'upper_arm', 'lower_arm', 'upper_leg', 
         'lower_leg'
     ]
     NUM_CLASS = 7
-    BASE_DIR = 'VOCdevkit/VOC2012'
+    BASE_DIR = 'Person'
     def __init__(self, root=os.path.expanduser('./data'), split='train',
                  mode=None, transform=None, target_transform=None, **kwargs):
-        super(VOCSegmentation, self).__init__(root, split, mode, transform,
+        super(PersonSegmentation, self).__init__(root, split, mode, transform,
                                               target_transform, **kwargs)
         _voc_root = os.path.join(self.root, self.BASE_DIR)
-        _mask_dir = os.path.join(_voc_root, 'SegmentationClass')
+        _mask_dir = os.path.join(_voc_root, 'SegmentationPart')
         _image_dir = os.path.join(_voc_root, 'JPEGImages')
         # train/val/test splits are pre-cut
-        _splits_dir = os.path.join(_voc_root, 'ImageSets/Segmentation')
+        _splits_dir = os.path.join('./datasets', 'Pascal')
         if self.split == 'train':
-            _split_f = os.path.join(_splits_dir, 'trainval.txt')
+            _split_f = os.path.join(_splits_dir, 'train_id.txt')
         elif self.split == 'val':
-            _split_f = os.path.join(_splits_dir, 'val.txt')
+            _split_f = os.path.join(_splits_dir, 'val_id.txt')
         elif self.split == 'test':
-            _split_f = os.path.join(_splits_dir, 'test.txt')
+            _split_f = os.path.join(_splits_dir, 'val_id.txt')
         else:
             raise RuntimeError('Unknown dataset split.')
         self.images = []
@@ -46,6 +47,9 @@ class VOCSegmentation(BaseDataset):
 
         if self.mode != 'test':
             assert (len(self.images) == len(self.masks))
+        
+        self.colorjitter = transforms.ColorJitter(brightness=0.1, contrast=0.5, saturation=0.5, hue=0.1)
+            
 
     def __getitem__(self, index):
         img = Image.open(self.images[index]).convert('RGB')
@@ -54,9 +58,11 @@ class VOCSegmentation(BaseDataset):
                 img = self.transform(img)
             return img, os.path.basename(self.images[index])
         target = Image.open(self.masks[index])
+            
         # synchrosized transform
         if self.mode == 'train':
             img, target = self._sync_transform( img, target)
+
         elif self.mode == 'val':
             img, target = self._val_sync_transform( img, target)
         else:
@@ -67,7 +73,13 @@ class VOCSegmentation(BaseDataset):
             img = self.transform(img)
         if self.target_transform is not None:
             target = self.target_transform(target)
-        return img, target
+        # Generate target maps
+        seg_half = target.copy()
+        seg_half[(seg_half > 0) & (seg_half <= 4)] = 1
+        seg_half[(seg_half > 4) & (seg_half < 255)] = 2
+        seg_full = target.copy()
+        seg_full[(seg_full > 0) & (seg_full < 255)] = 1
+        return img, target, seg_half, seg_full
 
     def _val_sync_transform(self, img, mask):
         outsize = self.crop_size
@@ -91,6 +103,15 @@ class VOCSegmentation(BaseDataset):
         return img, self._mask_transform(mask)
 
     def _sync_transform(self, img, mask):
+        #colorjitter and rotate
+        if random.random() < 0.5:
+            img = Image.fromarray(img)
+            mask = Image.fromarray(mask)
+            img = self.colorjitter(img)
+        # random rotate -10~10, mask using NN rotate
+        deg = random.uniform(-10, 10)
+        img = img.rotate(deg, resample=Image.BILINEAR)
+        mask = mask.rotate(deg, resample=Image.NEAREST)
         # random mirror
         if random.random() < 0.5:
             img = img.transpose(Image.FLIP_LEFT_RIGHT)

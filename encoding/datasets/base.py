@@ -27,6 +27,8 @@ class BaseDataset(data.Dataset):
         if self.mode == 'train':
             print('BaseDataset: base_size {}, crop_size {}'. \
                 format(base_size, crop_size))
+        
+
 
     def __getitem__(self, index):
         raise NotImplemented
