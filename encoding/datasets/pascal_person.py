@@ -107,8 +107,8 @@ class PersonSegmentation(BaseDataset):
     def _sync_transform(self, img, mask):
         #colorjitter and rotate
         if random.random() < 0.5:
-            img = Image.fromarray(img)
-            mask = Image.fromarray(mask)
+            # img = Image.fromarray(img)
+            # mask = Image.fromarray(mask)
             img = self.colorjitter(img)
         # random rotate -10~10, mask using NN rotate
         deg = random.uniform(-10, 10)
