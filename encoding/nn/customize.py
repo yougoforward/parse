@@ -89,7 +89,7 @@ class SegmentationLosses_parse(CrossEntropyLoss):
         part, half, full, aux, targets = tuple(inputs)
         preds = [part, half, full, aux]
         print(targets.size())
-        targets = torch.split(targets, 1, dim=1)
+        targets = torch.split(targets, 1, dim=3)
         h, w = targets[0].size(1), targets[0].size(2)
         #part seg loss final
         pred = F.interpolate(input=preds[0], size=(h, w), mode='bilinear', align_corners=True)

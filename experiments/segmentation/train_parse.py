@@ -110,7 +110,7 @@ class Trainer():
                 target = Variable(target)
             outputs = self.model(image)
             targets = tuple([target, seg_half, seg_full])
-            targets = torch.cat(targets, dim=1)
+            targets = torch.stack(targets, dim=3)
             # print(len(list(outputs)))
             # print(len(list(targets)))
             loss = self.criterion(outputs, targets)
