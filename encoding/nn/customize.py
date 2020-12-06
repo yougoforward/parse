@@ -494,7 +494,7 @@ def flatten_probas(preds, targets, ignore=None):
     """
     B, C, H, W = preds.size()
     preds = preds.permute(0, 2, 3, 1).contiguous().view(-1, C)  # B * H * W, C = P, C
-    targets = targets.view(-1)
+    targets = targets.contiguous().view(-1)
     if ignore is None:
         return preds, targets
     valid = (targets != ignore)
