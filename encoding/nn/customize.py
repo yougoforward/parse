@@ -74,7 +74,7 @@ class SegmentationLosses_parse(nn.Module):
     def __init__(self, se_loss=False, se_weight=0.2, nclass=-1,
                  aux=False, aux_weight=0.4, weight=None,
                  size_average=True, ignore_index=-1, reduction='mean'):
-        super(SegmentationLosses_parse, self).__init__(weight, ignore_index=ignore_index, reduction=reduction)
+        super(SegmentationLosses_parse, self).__init__()
         self.se_loss = se_loss
         self.aux = aux
         self.nclass = nclass
