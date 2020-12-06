@@ -4,7 +4,7 @@ import random
 
 import torch
 
-from PIL import Image
+from PIL import Image, ImageOps, ImageFilter
 from tqdm import tqdm
 from .base import BaseDataset
 import torchvision.transforms as transforms
