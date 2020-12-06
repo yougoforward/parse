@@ -84,9 +84,9 @@ class SegmentationLosses_parse(CrossEntropyLoss):
         self.criterion = torch.nn.CrossEntropyLoss(ignore_index=ignore_index, weight=None)
 
     def forward(self, *inputs):
-        print(len(list(inputs)))
-        part, half, full, targets = tuple(inputs)
-        preds = [part, half, full]
+        # print(len(list(inputs)))
+        part, half, full, aux, targets = tuple(inputs)
+        preds = [part, half, full, aux]
         targets = torch.split(targets, 1, dim=1)
         h, w = targets[0].size(1), targets[0].size(2)
         #part seg loss final
