@@ -24,7 +24,7 @@ class PersonSegmentation(BaseDataset):
         _mask_dir = os.path.join(_voc_root, 'SegmentationPart')
         _image_dir = os.path.join(_voc_root, 'JPEGImages')
         # train/val/test splits are pre-cut
-        _splits_dir = os.path.join('./datasets', 'Pascal')
+        _splits_dir = os.path.join('./encoding/datasets', 'Pascal')
         if self.split == 'train':
             _split_f = os.path.join(_splits_dir, 'train_id.txt')
         elif self.split == 'val':
