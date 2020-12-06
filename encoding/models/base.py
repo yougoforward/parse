@@ -26,11 +26,6 @@ def get_backbone(name, **kwargs):
         'resnet50': resnet.resnet50,
         'resnet101': resnet.resnet101,
         'resnet152': resnet.resnet152,
-        # resnest
-        'resnest50': resnet.resnest50,
-        'resnest101': resnet.resnest101,
-        'resnest200': resnet.resnest200,
-        'resnest269': resnet.resnest269,
         }
     name = name.lower()
     if name not in models:
