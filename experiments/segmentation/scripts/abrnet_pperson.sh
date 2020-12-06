@@ -1,6 +1,6 @@
 # !/usr/bin/env bash
 # train
-python -m experiments.segmentation.train --dataset pperson \
+python -m experiments.segmentation.train_parse --dataset pperson \
     --model abrnet --aux --base-size 520 --crop-size 520 \
     --backbone resnet101 --checkname abrnet_res101_pperson --dilated --epochs 150 --batch-size 20 --lr 0.01
 
