@@ -111,6 +111,8 @@ class Trainer():
             outputs = self.model(image)
             targets = tuple([target, seg_half, seg_full])
             targets = torch.cat(targets, dim=1)
+            print(outputs)
+            print(targets)
             loss = self.criterion(outputs, targets)
             loss.backward()
             self.optimizer.step()
