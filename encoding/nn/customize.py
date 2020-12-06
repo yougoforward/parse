@@ -69,12 +69,12 @@ class SegmentationLosses(CrossEntropyLoss):
             tvect[i] = vect
         return tvect
 
-class SegmentationLosses_parse(nn.Module):
+class SegmentationLosses_parse(CrossEntropyLoss):
     """2D Cross Entropy Loss with Auxilary Loss"""
     def __init__(self, se_loss=False, se_weight=0.2, nclass=-1,
                  aux=False, aux_weight=0.4, weight=None,
                  size_average=True, ignore_index=-1, reduction='mean'):
-        super(SegmentationLosses_parse, self).__init__()
+        super(SegmentationLosses_parse, self).__init__(weight, ignore_index=ignore_index, reduction=reduction)
         self.se_loss = se_loss
         self.aux = aux
         self.nclass = nclass
@@ -83,9 +83,11 @@ class SegmentationLosses_parse(nn.Module):
         self.bceloss = BCELoss(weight, reduction=reduction)
         self.criterion = torch.nn.CrossEntropyLoss(ignore_index=ignore_index, weight=None)
 
-    def forward(self, preds, targets):
-        h, w = targets[0].size(1), targets[0].size(2)
+    def forward(self, *inputs):
+        part, half, full, targets = tuple(inputs)
+        preds = [part, half, full]
         targets = torch.split(targets, 1, dim=1)
+        h, w = targets[0].size(1), targets[0].size(2)
         #part seg loss final
         pred = F.interpolate(input=preds[0], size=(h, w), mode='bilinear', align_corners=True)
         #ce loss
