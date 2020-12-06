@@ -13,6 +13,7 @@ from torch.nn.functional import interpolate
 from .base import BaseNet
 from .fcn import FCNHead
 from ..nn import ASPPModule, SEModule
+from torch.nn import functional as F
 
 __all__ = ['abrnet', 'get_abrnet']
 
