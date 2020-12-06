@@ -179,7 +179,7 @@ class ASPPModule(nn.Module):
         self.dilation_0 = nn.Sequential(nn.Conv2d(in_channels, out_channels, 1, bias=False),
                                 norm_layer(out_channels),
                                 nn.ReLU(True), 
-                                SEModule(out_dim, reduction=16))
+                                SEModule(out_channels, reduction=16))
 
         self.dilation_1 = nn.Sequential(nn.Conv2d(in_channels, out_channels, 1, bias=False),
                                 norm_layer(out_channels),
@@ -187,7 +187,7 @@ class ASPPModule(nn.Module):
                                 nn.Conv2d(out_channels, out_channels, kernel_size=3, padding=6, dilation=6, bias=False),
                                 norm_layer(out_channels),
                                 nn.ReLU(True),
-                                SEModule(out_dim, reduction=16))
+                                SEModule(out_channels, reduction=16))
 
         self.dilation_2 = nn.Sequential(nn.Conv2d(in_channels, out_channels, 1, bias=False),
                                 norm_layer(out_channels),
@@ -195,7 +195,7 @@ class ASPPModule(nn.Module):
                                 nn.Conv2d(out_channels, out_channels, kernel_size=3, padding=12, dilation=12, bias=False),
                                 norm_layer(out_channels),
                                 nn.ReLU(True),
-                                SEModule(out_dim, reduction=16))
+                                SEModule(out_channels, reduction=16))
 
         self.dilation_3 = nn.Sequential(nn.Conv2d(in_channels, out_channels, 1, bias=False),
                                 norm_layer(out_channels),
@@ -203,7 +203,7 @@ class ASPPModule(nn.Module):
                                 nn.Conv2d(out_channels, out_channels, kernel_size=3, padding=18, dilation=18, bias=False),
                                 norm_layer(out_channels),
                                 nn.ReLU(True),
-                                SEModule(out_dim, reduction=16))                           
+                                SEModule(out_channels, reduction=16))                           
         self.psaa_conv = nn.Sequential(nn.Conv2d(in_channels+5*out_channels, out_channels, 1, padding=0, bias=False),
                                     norm_layer(out_channels),
                                     nn.ReLU(True),
