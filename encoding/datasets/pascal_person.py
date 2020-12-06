@@ -74,11 +74,13 @@ class PersonSegmentation(BaseDataset):
         if self.target_transform is not None:
             target = self.target_transform(target)
         # Generate target maps
-        seg_half = target.copy()
+        seg_half = np.array(target)
         seg_half[(seg_half > 0) & (seg_half <= 4)] = 1
         seg_half[(seg_half > 4) & (seg_half < 255)] = 2
-        seg_full = target.copy()
+        seg_half = torch.from_numpy(seg_half).long()
+        seg_full = np.array(target)
         seg_full[(seg_full > 0) & (seg_full < 255)] = 1
+        seg_full = torch.from_numpy(seg_full).long()
         return img, target, seg_half, seg_full
 
     def _val_sync_transform(self, img, mask):
