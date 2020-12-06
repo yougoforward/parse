@@ -115,6 +115,7 @@ class BaseNet(nn.Module):
         # bilinear upsample options
         self._up_kwargs = up_kwargs
         self.backbone = backbone
+        print(dilated)
         self.pretrained = get_backbone(backbone, pretrained=True, dilated=dilated, norm_layer=norm_layer, root=root)
         self.pretrained.fc = None
         
