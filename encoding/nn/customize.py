@@ -16,6 +16,7 @@ from torch.nn import functional as F
 from torch.nn import Module, Sequential, Conv2d, ReLU, AdaptiveAvgPool2d, BCELoss, CrossEntropyLoss
 
 from torch.autograd import Variable
+from itertools import filterfalse as ifilterfalse
 
 torch_ver = torch.__version__[:3]
 
