@@ -82,7 +82,7 @@ class SegmentationLosses_parse(CrossEntropyLoss):
         self.aux_weight = aux_weight
         self.bceloss = BCELoss(weight, reduction=reduction)
         self.criterion = torch.nn.CrossEntropyLoss(ignore_index=ignore_index, weight=None)
-
+        self.only_present = True
     def forward(self, *inputs):
         # print(len(list(inputs)))
         part, half, full, aux, targets = tuple(inputs)
