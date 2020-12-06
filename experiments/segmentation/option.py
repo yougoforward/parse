@@ -19,7 +19,7 @@ class Options():
         parser.add_argument('--jpu', type=str, default=None,
                             help='JPU name')
         parser.add_argument('--dilated', action='store_true', default=
-                            True, help='dilation')
+                            False, help='dilation')
         parser.add_argument('--lateral', action='store_true', default=
                             False, help='employ FPN')
         parser.add_argument('--dataset', type=str, default='ade20k',
