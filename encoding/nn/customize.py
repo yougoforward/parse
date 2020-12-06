@@ -204,7 +204,7 @@ class ASPPModule(nn.Module):
                                 norm_layer(out_channels),
                                 nn.ReLU(True),
                                 SEModule(out_channels, reduction=16))                           
-        self.psaa_conv = nn.Sequential(nn.Conv2d(in_channels+5*out_channels, out_channels, 1, padding=0, bias=False),
+        self.psaa_conv = nn.Sequential(nn.Conv2d(in_channels, out_channels, 3, padding=1, bias=False),
                                     norm_layer(out_channels),
                                     nn.ReLU(True),
                                     nn.Conv2d(out_channels, 4, 1, bias=True),
