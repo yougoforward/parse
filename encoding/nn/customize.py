@@ -85,8 +85,9 @@ class SegmentationLosses_parse(nn.Module):
 
     def forward(self, preds, targets):
         h, w = targets[0].size(1), targets[0].size(2)
+        targets = torch.split(targets, 1, dim=1)
         #part seg loss final
-        pred = F.interpolate(input=preds[0][-1], size=(h, w), mode='bilinear', align_corners=True)
+        pred = F.interpolate(input=preds[0], size=(h, w), mode='bilinear', align_corners=True)
         #ce loss
         loss_ce = self.criterion(pred, targets[0])
         pred = F.softmax(input=pred, dim=1)
@@ -96,7 +97,7 @@ class SegmentationLosses_parse(nn.Module):
         # loss_final = lovasz_loss
         
         #half seg loss final
-        pred = F.interpolate(input=preds[1][-1], size=(h, w), mode='bilinear', align_corners=True)
+        pred = F.interpolate(input=preds[1], size=(h, w), mode='bilinear', align_corners=True)
         #ce loss
         loss_ce = self.criterion(pred, targets[1].long())
         pred = F.softmax(input=pred, dim=1)
@@ -106,7 +107,7 @@ class SegmentationLosses_parse(nn.Module):
         # loss_final_hb = lovasz_loss
 
         #full seg loss final
-        pred = F.interpolate(input=preds[2][-1], size=(h, w), mode='bilinear', align_corners=True)
+        pred = F.interpolate(input=preds[2], size=(h, w), mode='bilinear', align_corners=True)
         #ce loss
         loss_ce = self.criterion(pred, targets[2].long())
         pred = F.softmax(input=pred, dim=1)
