@@ -110,10 +110,14 @@ class PersonSegmentation(BaseDataset):
             # img = Image.fromarray(img)
             # mask = Image.fromarray(mask)
             img = self.colorjitter(img)
-        # random rotate -10~10, mask using NN rotate
-        deg = random.uniform(-10, 10)
-        img = img.rotate(deg, resample=Image.BILINEAR)
-        mask = mask.rotate(deg, resample=Image.NEAREST)
+            # random rotate -10~10, mask using NN rotate
+            deg = random.uniform(-10, 10)
+            img = img.rotate(deg, resample=Image.BILINEAR)
+            mask = mask.rotate(deg, resample=Image.NEAREST)
+        # # random rotate -10~10, mask using NN rotate
+        # deg = random.uniform(-10, 10)
+        # img = img.rotate(deg, resample=Image.BILINEAR)
+        # mask = mask.rotate(deg, resample=Image.NEAREST)
         # random mirror
         if random.random() < 0.5:
             img = img.transpose(Image.FLIP_LEFT_RIGHT)
@@ -143,9 +147,9 @@ class PersonSegmentation(BaseDataset):
         img = img.crop((x1, y1, x1+crop_size, y1+crop_size))
         mask = mask.crop((x1, y1, x1+crop_size, y1+crop_size))
         # gaussian blur as in PSP
-        # if random.random() < 0.5:
-        #     img = img.filter(ImageFilter.GaussianBlur(
-        #         radius=random.random()))
+        if random.random() < 0.5:
+            img = img.filter(ImageFilter.GaussianBlur(
+                radius=random.random()))
         # final transform
         return img, self._mask_transform(mask)
 
