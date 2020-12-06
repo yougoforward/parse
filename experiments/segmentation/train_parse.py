@@ -109,7 +109,7 @@ class Trainer():
                 image = Variable(image)
                 target = Variable(target)
             outputs = self.model(image)
-            targets = [target, seg_half, seg_full]
+            targets = touple([target, seg_half, seg_full])
             loss = self.criterion(outputs, targets)
             loss.backward()
             self.optimizer.step()
