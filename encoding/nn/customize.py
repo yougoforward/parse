@@ -17,8 +17,6 @@ from torch.nn import Module, Sequential, Conv2d, ReLU, AdaptiveAvgPool2d, BCELos
 
 from torch.autograd import Variable
 from itertools import filterfalse as ifilterfalse
-torch.backends.cudnn.benchmark=True
-torch.backends.cudnn.deterministic=True
 torch_ver = torch.__version__[:3]
 
 __all__ = ['SegmentationLosses', 'SegmentationLosses_parse', 'PyramidPooling', 'JPU', 'JPU_X', 'Mean', 'ASPPModule', 'SEModule']

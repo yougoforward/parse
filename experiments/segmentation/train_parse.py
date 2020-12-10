@@ -21,7 +21,8 @@ from encoding.datasets import get_segmentation_dataset
 from encoding.models import get_segmentation_model
 
 from .option import Options
-
+torch.backends.cudnn.benchmark=True
+torch.backends.cudnn.deterministic=True
 torch_ver = torch.__version__[:3]
 if torch_ver == '0.3':
     from torch.autograd import Variable
