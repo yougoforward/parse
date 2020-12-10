@@ -86,9 +86,9 @@ class SegmentationLosses_parse(CrossEntropyLoss):
         self.only_present = True
     def forward(self, *inputs):
         # print(len(list(inputs)))
-        part, half, full, aux, targets = tuple(inputs)
+        part, half, full, aux, seg_part, seg_half, seg_full = tuple(inputs)
         preds = [part, half, full, aux]
-        # targets = [seg_part, seg_half, seg_full]
+        targets = [seg_part, seg_half, seg_full]
         h, w = targets[0].size(1), targets[0].size(2)
         #part seg loss final
         pred = F.interpolate(input=preds[0], size=(h, w), mode='bilinear', align_corners=True)
