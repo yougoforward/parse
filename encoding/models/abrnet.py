@@ -51,9 +51,10 @@ class abrnetHead(nn.Module):
         context = self.layer5(c4)
 
         x_seg = self.layerp(context, c2, c1)
-        alpha_hb = self.layerh(context, c2)
-        alpha_fb = self.layerf(context, c2)
-        return [x_seg, alpha_hb, alpha_fb]
+        # alpha_hb = self.layerh(context, c2)
+        # alpha_fb = self.layerf(context, c2)
+        # return [x_seg, alpha_hb, alpha_fb]
+        return [x_seg,x_seg,x_seg]
 
 
 def get_abrnet(dataset='pascal_voc', backbone='resnet50', pretrained=False,
