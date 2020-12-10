@@ -2,7 +2,7 @@
 # train
 python -m experiments.segmentation.train_parse --dataset pperson \
     --model abrnet --aux --base-size 473 --crop-size 473 \
-    --backbone resnet101 --checkname abrnet_res101_pperson --epochs 150 --batch-size 8 --lr 0.01 --dilated
+    --backbone resnet101 --checkname abrnet_res101_pperson --epochs 150 --batch-size 16 --lr 0.01 --dilated
 
 #test [single-scale]
 python -m experiments.segmentation.test_whole --dataset pperson \
